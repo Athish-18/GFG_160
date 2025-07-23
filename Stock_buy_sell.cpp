@@ -20,28 +20,34 @@ public:
 // C++ Program to find the max profit when multiple
 // transactions are allowed
 
-#include <iostream>
-#include <vector>
-using namespace std;
-
-int maximumProfit(const vector<int> &prices)
+int maximumProfit(vector<int> &prices)
 {
+  int n = prices.size();
+  int lMin = prices[0]; // Local Minima
+  int lMax = prices[0]; // Local Maxima
   int res = 0;
 
-  // Keep on adding the difference between
-  // adjacent when the prices a
-  for (int i = 1; i < prices.size(); i++)
+  int i = 0;
+  while (i < n - 1)
   {
-    if (prices[i] > prices[i - 1])
-      res += prices[i] - prices[i - 1];
+
+    // Find local minima
+    while (i < n - 1 && prices[i] >= prices[i + 1])
+    {
+      i++;
+    }
+    lMin = prices[i];
+
+    // Local Maxima
+    while (i < n - 1 && prices[i] <= prices[i + 1])
+    {
+      i++;
+    }
+    lMax = prices[i];
+
+    // Add current profit
+    res = res + (lMax - lMin);
   }
 
   return res;
-}
-
-int main()
-{
-  vector<int> prices = {100, 180, 260, 310, 40, 535, 695};
-  cout << maximumProfit(prices) << endl;
-  return 0;
 }
